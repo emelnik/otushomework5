@@ -1,3 +1,5 @@
+package pages;
+
 public enum FildsList {
 
     ВАСИЛИЙ,
@@ -5,6 +7,5 @@ public enum FildsList {
     ТЕСТИРОВИЧ,
     TESTIROVICH,
     MELNIK
-
 
 }

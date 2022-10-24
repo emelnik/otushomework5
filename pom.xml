@@ -17,6 +17,7 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -29,6 +30,11 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <systemPropertyVariables>
+                        <base.url>https://otus.ru</base.url>
+                        <login.email>sahis54797@altpano.com</login.email>
+                        <login.password>Qaz123456qaz!</login.password>
+                    </systemPropertyVariables>
                     <includes>
                         <include>**/*.java</include>
                     </includes>
@@ -74,6 +80,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

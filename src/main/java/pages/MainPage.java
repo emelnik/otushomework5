@@ -1,19 +1,21 @@
+package pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class MainPage {
 
-    private WebDriver driver;
+    public WebDriver driver;
 
     public MainPage(WebDriver driver){
         this.driver = driver;
     }
 
-    By modalWindowLocator = By.xpath("//div[@data-mode='login']");
+    public By modalWindowLocator = By.xpath("//div[@data-mode='login']");
     public String menuXpathLocator = "//p[contains(@class,'header2-menu__item-text__username')]";
 
-    private final String email = "sahis54797@altpano.com";
-    private final String password = "Qaz123456qaz!";
+    private final String email = System.getProperty("login.email");
+    private final String password = System.getProperty("login.password");
 
     public void clickRegButton(){
         driver.findElement(By.xpath("//button[@data-modal-id='new-log-reg']"))
@@ -32,6 +34,5 @@ public class MainPage {
                 .click();
         return new MainPage(driver);
     }
-
 
 }

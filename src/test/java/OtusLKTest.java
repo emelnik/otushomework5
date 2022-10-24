@@ -2,7 +2,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.*;
@@ -11,8 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Properties;
 
+import pages.*;
 
 public class OtusLKTest {
 
@@ -20,9 +21,9 @@ public class OtusLKTest {
 
     private final Logger logger = LogManager.getLogger();
 
-    Properties prop = System.getProperties();
-    Object addProperties = prop.setProperty("base.url","https://otus.ru");
-    String base_url = prop.getProperty("base.url");
+    Properties p = new Properties(System.getProperties());
+
+    String base_url = p.getProperty("base.url");
 
     @BeforeClass
         public static void startDriver(){
@@ -67,7 +68,7 @@ public class OtusLKTest {
 
         amp.setBlogName();
 
-        amp.setDateOfBirth();
+        amp.setDateOfBirth(LocalDate.now());
 
         amp.setCountryName();
 
@@ -75,9 +76,10 @@ public class OtusLKTest {
 
         amp.setEnglishLevel();
 
-        amp.setContact1();
+        amp.clearOldContact();
 
-        amp.setContact2();
+        amp.setContact(ContactInfo.WHATSAPP.toString().toLowerCase(),"7-777-00000000");
+        amp.setContact(ContactInfo.TELEGRAM.toString().toLowerCase(),"8-888-11111111");
 
         amp.clickButtonSave();
 
@@ -103,23 +105,17 @@ public class OtusLKTest {
 
         amp.actionsMoveToElement();
 
-            String factName = driver.findElement(By.xpath("//input[@name='fname']")).getAttribute("value");
-            Assert.assertEquals(FildsList.ВАСИЛИЙ.toString(),factName);
+        amp.assertFactName();
 
-            String factNameLatin = driver.findElement(By.xpath("//input[@name='fname_latin']")).getAttribute("value");
-            Assert.assertEquals(FildsList.VASILIY.toString(),factNameLatin);
+        amp.assertFactNameLatin();
 
-            String factLastName = driver.findElement(By.xpath("//input[@name='lname']")).getAttribute("value");
-            Assert.assertEquals(FildsList.ТЕСТИРОВИЧ.toString(),factLastName);
+        amp.assertFactLastName();
 
-            String factLastNameL = driver.findElement(By.xpath("//input[@name='lname_latin']")).getAttribute("value");
-            Assert.assertEquals(FildsList.TESTIROVICH.toString(),factLastNameL);
+        amp.assertFactLastNameLatin();
 
-            String factNameBlog = driver.findElement(By.xpath("//input[@name='blog_name']")).getAttribute("value");
-            Assert.assertEquals(FildsList.MELNIK.toString(),factNameBlog);
+        amp.assertFactNameBlog();
 
-            String factBD = driver.findElement(By.xpath("//input[@name='date_of_birth']")).getAttribute("value");
-            Assert.assertEquals("10.11.1980",factBD);
+        amp.assertFactBD();
 
         }
 
