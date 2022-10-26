@@ -1,3 +1,4 @@
+import data.ContactInfo;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public class OtusLKTest {
     @After
     public void end(){
         if(driver != null){
+            driver.close();
             driver.quit();
         }
         logger.info("Драйвер успешно закрыт");
@@ -44,9 +46,9 @@ public class OtusLKTest {
         startDriver();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get(base_url);
 
         MainPage mp = new MainPage(driver);
+        mp.open("/");
 
         mp.clickRegButton();
 

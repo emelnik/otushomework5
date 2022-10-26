@@ -11,17 +11,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class AboutMyselfPage {
-
-    private WebDriver driver;
+public class AboutMyselfPage extends AbsBasePage{
 
     public AboutMyselfPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public String menuXpathLocator = "//p[contains(@class,'header2-menu__item-text__username')]";
 
-    public void actionsMoveToElement(){
+    public AboutMyselfPage actionsMoveToElement(){
         WebElement menu = driver.findElement(By.xpath(menuXpathLocator));
         By aboutMyselfLocator = By.xpath("//h3[contains(text(),'Персональные данные')]");
         new Actions(driver).moveToElement(menu).moveToElement(driver
@@ -30,47 +28,53 @@ public class AboutMyselfPage {
                 .build()
                 .perform();
         getElement(aboutMyselfLocator);
+        return new AboutMyselfPage(driver);
     }
 
-    public void setFirstName(){
+    public AboutMyselfPage setFirstName(){
         WebElement elementInputFirstNameRus = driver.findElement(By.xpath("//input[@name='fname']"));
         WebElement elementInputFirstNameLatin = driver.findElement(By.xpath("//input[@name='fname_latin']"));
         elementInputFirstNameRus.clear();
-        elementInputFirstNameRus.sendKeys(FildsList.ВАСИЛИЙ.toString());
+        elementInputFirstNameRus.sendKeys("иван");
         elementInputFirstNameLatin.clear();
-        elementInputFirstNameLatin.sendKeys(FildsList.VASILIY.toString());
+        elementInputFirstNameLatin.sendKeys("ivan");
+        return new AboutMyselfPage(driver);
     }
 
-    public void setLastName(){
+    public AboutMyselfPage setLastName(){
         WebElement elementInputLastNameRus = driver.findElement(By.xpath("//input[@name='lname']"));
         WebElement elementInputLastNameLatin = driver.findElement(By.xpath("//input[@name='lname_latin']"));
         elementInputLastNameRus.clear();
-        elementInputLastNameRus.sendKeys(FildsList.ТЕСТИРОВИЧ.toString());
+        elementInputLastNameRus.sendKeys("иванов");
         elementInputLastNameLatin.clear();
-        elementInputLastNameLatin.sendKeys(FildsList.TESTIROVICH.toString());
+        elementInputLastNameLatin.sendKeys("ivanov");
+        return new AboutMyselfPage(driver);
     }
 
-    public void setBlogName(){
+    public AboutMyselfPage setBlogName(){
         WebElement elementBlogName = driver.findElement(By.xpath("//input[@name='blog_name']"));
         elementBlogName.clear();
-        elementBlogName.sendKeys(FildsList.MELNIK.toString());
+        elementBlogName.sendKeys("ivanec");
+        return new AboutMyselfPage(driver);
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth){
+    public AboutMyselfPage setDateOfBirth(LocalDate dateOfBirth){
         dateOfBirth = dateOfBirth.minusYears(18);
         WebElement elementDateOfBirth = driver.findElement(By.xpath("//input[@name='date_of_birth']"));
         elementDateOfBirth.clear();
         elementDateOfBirth.click();
         elementDateOfBirth.sendKeys(dateOfBirth.toString());
         elementDateOfBirth.sendKeys(Keys.ENTER);
+        return new AboutMyselfPage(driver);
     }
 
-    public void setCountryName(){
+    public AboutMyselfPage setCountryName(){
         driver.findElement(By.xpath("//div[@data-slave-selector]/label/div")).click();
         driver.findElement(By.xpath("//button[contains(text(),'Россия')]")).click();
+        return new AboutMyselfPage(driver);
     }
 
-    public void setCityName(){
+    public AboutMyselfPage setCityName(){
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         WebElement city = driver.findElement(By.xpath("//input[@data-title='Город']"));
         jse.executeScript("arguments[0].removeAttribute('disabled')", city);
@@ -78,14 +82,16 @@ public class AboutMyselfPage {
         getElement(By.xpath("//div[contains(@class,'js-lk-cv-dependent-slave-city')]/label/div"));
         getClckableElement(By.xpath("//button[contains(text(),'Москва')]"));
         driver.findElement(By.xpath("//button[contains(text(),'Москва')]")).click();
+        return new AboutMyselfPage(driver);
     }
 
-    public void setEnglishLevel(){
+    public AboutMyselfPage setEnglishLevel(){
         driver.findElement(By.xpath("//input[@name='english_level']/following::div[1]")).click();
         driver.findElement(By.xpath("//button[contains(text(),'Начальный уровень (Beginner)')]")).click();
+        return new AboutMyselfPage(driver);
     }
 
-    public void clearOldContact(){
+    public AboutMyselfPage clearOldContact(){
         List<WebElement> listButtonDelete = driver
                 .findElements(By.xpath("//div[contains(@class,'container__col_md-0')]//button[contains(text(),'Удалить')]"));
         if(listButtonDelete != null){
@@ -93,9 +99,10 @@ public class AboutMyselfPage {
                 list.click();
             }
         }
+        return new AboutMyselfPage(driver);
     }
 
-    public void setContact(String contactType, String contactNumber){
+    public AboutMyselfPage setContact(String contactType, String contactNumber){
 
         driver.findElement(By.xpath("//button[contains(text(),'Добавить')]"))
                 .click();
@@ -110,35 +117,40 @@ public class AboutMyselfPage {
                 .clear();
         elementContact
                 .sendKeys(contactNumber);
+        return new AboutMyselfPage(driver);
     }
 
-    public void clickButtonSave(){
+    public AboutMyselfPage clickButtonSave(){
         driver.findElement(By.xpath("//button[contains(text(),'Сохранить и заполнить позже')]")).click();
+        return new AboutMyselfPage(driver);
     }
 
-    public void assertFactName(){
+    public AboutMyselfPage assertFactName(){
         String factName = driver.findElement(By.xpath("//input[@name='fname']")).getAttribute("value");
-        Assert.assertEquals(FildsList.ВАСИЛИЙ.toString(),factName);
+        Assert.assertEquals("иван",factName);
+        return new AboutMyselfPage(driver);
     }
 
-    public void assertFactNameLatin(){
+    public AboutMyselfPage assertFactNameLatin(){
         String factNameLatin = driver.findElement(By.xpath("//input[@name='fname_latin']")).getAttribute("value");
-        Assert.assertEquals(FildsList.VASILIY.toString(),factNameLatin);
+        Assert.assertEquals("ivan",factNameLatin);
+        return new AboutMyselfPage(driver);
     }
 
-    public void assertFactLastName(){
+    public AboutMyselfPage assertFactLastName(){
         String factLastName = driver.findElement(By.xpath("//input[@name='lname']")).getAttribute("value");
-        Assert.assertEquals(FildsList.ТЕСТИРОВИЧ.toString(),factLastName);
+        Assert.assertEquals("иванов",factLastName);
+        return new AboutMyselfPage(driver);
     }
 
     public void assertFactLastNameLatin(){
         String factLastNameL = driver.findElement(By.xpath("//input[@name='lname_latin']")).getAttribute("value");
-        Assert.assertEquals(FildsList.TESTIROVICH.toString(),factLastNameL);
+        Assert.assertEquals("ivanov",factLastNameL);
     }
 
     public void assertFactNameBlog(){
         String factNameBlog = driver.findElement(By.xpath("//input[@name='blog_name']")).getAttribute("value");
-        Assert.assertEquals(FildsList.MELNIK.toString(),factNameBlog);
+        Assert.assertEquals("ivanec",factNameBlog);
     }
 
     public void assertFactBD(){

@@ -1,4 +1,4 @@
-package pages;
+package data;
 
 public enum ContactInfo {
 

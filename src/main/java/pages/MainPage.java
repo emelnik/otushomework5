@@ -3,12 +3,10 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class MainPage {
-
-    public WebDriver driver;
+public class MainPage extends AbsBasePage{
 
     public MainPage(WebDriver driver){
-        this.driver = driver;
+        super(driver);
     }
 
     public By modalWindowLocator = By.xpath("//div[@data-mode='login']");
@@ -17,16 +15,18 @@ public class MainPage {
     private final String email = System.getProperty("login.email");
     private final String password = System.getProperty("login.password");
 
-    public void clickRegButton(){
+    public MainPage clickRegButton(){
         driver.findElement(By.xpath("//button[@data-modal-id='new-log-reg']"))
                 .click();
+        return new MainPage(driver);
     }
 
-    public void setEmailAndPassword(){
+    public MainPage setEmailAndPassword(){
         driver.findElement(By.xpath("//form[@action='/login/']//input[@name='email']"))
                 .sendKeys(email);
         driver.findElement(By.xpath("//input[@type='password']"))
                 .sendKeys(password);
+        return new MainPage(driver);
     }
 
     public MainPage clickSubmit(){
